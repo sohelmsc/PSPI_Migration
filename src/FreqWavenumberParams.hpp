@@ -1,6 +1,6 @@
 /*  =================================================================================
  *  Name        : FreqWavenumberParams.hpp
- *  Author      : Sohel Bhuiyan
+ *  Author      : Mafijul Bhuiyan
  *  Version     : 0.1
  *  Purpose     : Store temporal and spatial frequency information
  *  Date        : Feb 18, 2014
