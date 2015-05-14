@@ -1,0 +1,68 @@
+/*  =================================================================================
+ *  Name        : PSPI_PS.cpp (Phase Shift Migration Plus Interpolation)
+ *  Author      : Sohel Bhuiyan
+ *  Version     : 0.1
+ *  Purpose     : Generate the migrated image of the velocity model using PSPI method
+ *  Date        : Feb 18, 2014 - implementation for PSPI poststack method
+ *  Affiliation : University of Alberta, Physics department (SAIG)
+ *  Email       : mbhuiyan@ualberta.ca
+ * ===================================================================================
+ */
+
+#include <cmath>
+#include "DataModelParams.hpp"
+#include "FreqWavenumberParams.hpp"
+#include "RefVelParams.hpp"
+#include "SeismicImaging.hpp"
+
+int main(int argc, char **argv)
+{
+
+   /* Creating the objects of the dependence classes */
+   DataModelParams dmp;
+   FreqWavenumberParams fwp;
+   RefVelParams rvp;
+
+   /* Initialisation of data and model parameters. */
+   dmp.dx = 10;
+   dmp.nx = 10;
+   dmp.nTraces = 1290;
+   dmp.nx = 1290;
+   dmp.nz = 300;
+   dmp.nt = 626;
+   dmp.nw = pow(2,ceil(log10(dmp.nt)/log10(2)));
+   dmp.nk = pow(2,ceil(log10(dmp.nx)/log10(2)));
+   dmp.dt = 0.001;
+   dmp.dataFileName = "/home/entropy/workspace/PSPI_PS/src/data.le.bin";
+   dmp.velFileName = "/home/entropy/workspace/PSPI_PS/src/velocities.le.bin";
+   dmp.imageFileName = "/home/entropy/workspace/PSPI_PS/src/image.bin";
+
+
+   /* Initialisation of frequency parameters. */
+   fwp.minF = 1;
+   fwp.maxF = 40;
+
+   /* Initialisation of reference velocity parameters. To be implemented different initialisation of
+    * reference velocity parameters for Bagaini method */
+   rvp.maxRefVel=8;
+
+   /* Executing PSPI migration to generate the seismic image */
+   SeismicImaging si;
+   si.pspiImaging(&dmp, &fwp, &rvp);
+
+   /* Clearing the memory space */
+   dmp.reset();
+   fwp.reset();
+
+/* To embed other post-stack migration methods.
+ *
+   si.stoltImaging(&dmp, &rvp, &fwp);
+
+   si.gadzagImaging(&dmp, &rvp, &fwp);
+
+   si.splitStepImaging(&dmp, &rvp, &fwp);
+
+*/
+
+ return 0;
+}
